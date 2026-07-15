@@ -5,12 +5,12 @@ import NoticeBoard from "./components/NoticeBoard";
 import QuickLinks from "./components/QuickLinks";
 import InfoSidebar from "./components/InfoSidebar";
 import { Message } from "./types";
-import { Sparkles, HelpCircle } from "lucide-react";
+import { Sparkles, HelpCircle, MessageSquare, X } from "lucide-react";
 
 export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const [isChatExpanded, setIsChatExpanded] = useState<boolean>(false);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
   // Unified API caller for the Gemini chat endpoint
   const handleSendMessage = async (text: string) => {
@@ -42,11 +42,16 @@ export default function App() {
   const handleTriggerQuery = async (queryText: string) => {
     if (isGenerating) return;
 
-    // Scroll chat interface to focus
-    const chatEl = document.getElementById("dc-chat-interface");
-    if (chatEl) {
-      chatEl.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+    // Automatically pop open the floating assistant
+    setIsChatOpen(true);
+
+    // Scroll chat interface to focus with a minor delay so the element mounts
+    setTimeout(() => {
+      const chatEl = document.getElementById("dc-chat-interface");
+      if (chatEl) {
+        chatEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
 
     // Add user message
     const userMsg: Message = {
@@ -125,31 +130,16 @@ export default function App() {
         {/* Dynamic Bento Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* LEFT: Information Sidebars (4 Columns on Desktop when not expanded) */}
-          {!isChatExpanded && (
-            <div className="lg:col-span-4 flex flex-col gap-6 animate-fadeIn">
-              {/* Quick Profile */}
-              <div className="flex-1">
-                <InfoSidebar />
-              </div>
+          {/* LEFT: Information Sidebars (5 Columns on Desktop) */}
+          <div className="lg:col-span-5 flex flex-col gap-6 animate-fadeIn">
+            {/* Quick Profile */}
+            <div className="flex-1">
+              <InfoSidebar />
             </div>
-          )}
-
-          {/* MIDDLE: Chat Interface Centerpiece (Dynamic width depending on isChatExpanded state) */}
-          <div className={`${isChatExpanded ? "lg:col-span-9" : "lg:col-span-5"} flex flex-col gap-6 transition-all duration-300`}>
-            <ChatInterface 
-              onSendMessage={handleSendMessage}
-              messages={messages}
-              setMessages={setMessages}
-              isGenerating={isGenerating}
-              setIsGenerating={setIsGenerating}
-              isExpanded={isChatExpanded}
-              onToggleExpand={() => setIsChatExpanded(!isChatExpanded)}
-            />
           </div>
 
-          {/* RIGHT: Notice Board circular bulletins (3 Columns on Desktop) */}
-          <div className="lg:col-span-3 flex flex-col gap-6">
+          {/* RIGHT: Notice Board circular bulletins (7 Columns on Desktop) */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
             <div className="h-full">
               <NoticeBoard onSelectNotice={handleSelectNotice} />
             </div>
@@ -175,6 +165,50 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Floating Chat Widget */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-none">
+        {/* Chat Window Popup */}
+        {isChatOpen && (
+          <div className="w-[420px] h-[600px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-8rem)] shadow-2xl rounded-2xl border border-slate-200/80 bg-white flex flex-col overflow-hidden animate-slideUp pointer-events-auto">
+            <ChatInterface 
+              onSendMessage={handleSendMessage}
+              messages={messages}
+              setMessages={setMessages}
+              isGenerating={isGenerating}
+              setIsGenerating={setIsGenerating}
+              onClose={() => setIsChatOpen(false)}
+            />
+          </div>
+        )}
+
+        {/* Floating Toggle Button and Tooltip */}
+        <div className="flex items-center gap-3 pointer-events-auto">
+          {/* Welcome Tooltip (shown when chat is closed) */}
+          {!isChatOpen && (
+            <div className="bg-emerald-950 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl border border-emerald-850 animate-bounce flex items-center gap-2 select-none whitespace-nowrap">
+              <span className="h-2 w-2 rounded-full bg-amber-400 animate-ping" />
+              <span>Ask Dhemaji College AI! 💬</span>
+            </div>
+          )}
+
+          <button
+            onClick={() => setIsChatOpen(!isChatOpen)}
+            className="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-4 rounded-full shadow-2xl border border-emerald-700/60 hover:scale-110 active:scale-95 transition-all duration-200 flex items-center justify-center relative group"
+            id="floating-chat-toggle"
+            title="Dhemaji College AI Assistant"
+          >
+            {isChatOpen ? (
+              <X className="h-6 w-6 text-amber-300" />
+            ) : (
+              <>
+                <MessageSquare className="h-6 w-6 text-amber-300" />
+                <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-amber-400 border-2 border-emerald-900 flex items-center justify-center" />
+              </>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

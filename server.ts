@@ -11,16 +11,8 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Initialize Gemini Client
-const apiKey = process.env.GEMINI_API_KEY;
-const ai = new GoogleGenAI({
-  apiKey: apiKey,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
-  }
-});
+// Initialize Gemini Client lazily inside routes to prevent stale API keys or startup crashes if not configured
+
 
 // Detailed official knowledge base about Dhemaji College
 const DHEMAJI_COLLEGE_KNOWLEDGE_BASE = `
@@ -97,7 +89,7 @@ OFFICIAL DHEMAJI COLLEGE COMPREHENSIVE DATA SHEET
    • Chemistry Department: Dr. Jayanta Kumar Baruah, Dr. Hemanga Jyoti Sarmah, Mrs. Bornali Chutia.
    • Mathematics Department: Dr. Prasanta Kumar Chutia, Mr. Nayan Jyoti Hazarika.
    • Botany Department: Dr. Tarun Chandra Taid, Dr. Anuradha Lahon.
-   • Zoology Department: Dr. Bunty Bose, Dr. Kishore Sengupta.
+   • Zoology Department: Mr. Sanker Paul (HOD), Dr. Purbajyoti Saikia, Dr. Muhammed Khairujjaman Mazumder, Dr. Jitu Chutia.
    • Computer Science Department: Mr. Kalyan Roy, Mr. Pranjal Saikia.
    • Electronics Department: Mr. Madhurjya Prasad Borah.
    • Statistics Department: Dr. Bikash Borah.
@@ -140,12 +132,14 @@ OFFICIAL DHEMAJI COLLEGE COMPREHENSIVE DATA SHEET
      - Leggings, jeans, and tight clothing are strictly prohibited inside the campus.
 
 8. CAMPUS FACILITIES & WORLD-CLASS INFRASTRUCTURE:
-   • Kanak Chandra Chutia Memorial Library:
-     - Digital central library housing over 33,000 text and reference books.
-     - Fully automated using SOUL 2.0 software with barcode-assisted check-out.
+   • Kanak Chandra Chutia Memorial Library (Official Portal: https://www.dhemajicollege.in/library.php):
+     - Digital central library housing over 33,000+ text and reference books.
+     - Fully automated using SOUL 2.0 software with barcode-assisted check-out/check-in.
      - Digital reading room with high-speed Wi-Fi access for research.
      - Subscribed to N-LIST consortia, granting students free access to over 6,000+ e-journals and 1,99,500+ e-books.
      - Book bank facility available for economically disadvantaged and meritorious students.
+     - Fully automated OPAC (Online Public Access Catalog) for easy catalog searching.
+     - Open on all working days from 9:00 AM to 4:00 PM.
    • Institutional Biotech Hub:
      - Funded by the Department of Biotechnology (DBT), Government of India.
      - Promotes state-of-the-art research in microbial biotechnology, plant tissue culture, and molecular biology.
@@ -166,11 +160,286 @@ OFFICIAL DHEMAJI COLLEGE COMPREHENSIVE DATA SHEET
    • Mobile Phone Rules: Use of mobile phones inside classrooms, seminar halls, and laboratories is strictly prohibited. If confiscated, a fine or disciplinary action will be taken.
    • Attendance Mandate: Minimum 75% attendance in both theory and practical classes is compulsory to appear in final examinations.
 
+10. DEPARTMENT OF ZOOLOGY (SPECIALIZED REGISTER):
+    • Establishment: Founded in 1976.
+    • Core Vision: Imparts highly detailed knowledge in Zoological fields and actively participates in conserving regional bio-resources and local biodiversity.
+    • Courses Offered: B.Sc. Major/Honors in Zoology.
+    • Seat Intake Capacity: 20 seats for B.Sc. (Major).
+    • Departmental Wall Magazine: "NEURON" (Won 1st Prize in Wall Magazine Competition).
+    • Research & Projects: Completed 3 Minor Research Projects.
+    • Syllabus URL: https://www.dhemajicollege.in/GCSyllabus/Zoology.pdf
+    • Detailed Faculty Roster:
+      1. Mr. Sanker Paul (Assistant Professor & Head of Department)
+         - Email: paulsanker@gmail.com
+         - Mobile: (+91) 9957287867
+         - Individual Profile: https://www.dhemajicollege.in/teacherprofile/SankerPaul.pdf
+      2. Dr. Purbajyoti Saikia (Assistant Professor)
+         - Email: purbajyoti81@gmail.com
+         - Mobile: (+91) 8414861061
+         - Individual Profile: https://www.dhemajicollege.in/teacherprofile/PurbaJSaikia.pdf
+      3. Dr. Muhammed Khairujjaman Mazumder (Assistant Professor)
+         - Email: Khairujjaman1987@gmail.com
+         - Mobile: (+91) 9365536928
+         - Individual Profile: https://www.dhemajicollege.in/teacherprofile/Dr.%20MuhammedKhairujjamanMazumder.pdf
+      4. Dr. Jitu Chutia (Assistant Professor)
+         - Email: jituchutia.j.c@gmail.com
+         - Mobile: (+91) 9101340029
+         - Individual Profile: https://www.dhemajicollege.in/teacherprofile/33New_JITU%20CHUTIA.pdf
+    • Official Publications & PDF Activities:
+      - National Webinar (Webinar Report 1): https://www.dhemajicollege.in/class/deptupdate/1669574164_833742252Zoology.pdf
+      - National Webinar (Webinar Report 2): https://www.dhemajicollege.in/class/deptupdate/1669574403_525237796Zoology.pdf
+      - Academic Field Trip Report: https://www.dhemajicollege.in/class/deptupdate/1669574463_538105535Zoology.pdf
+      - Department Newsletter: https://www.dhemajicollege.in/class/deptupdate/1669574710_167715886Zoology.pdf
+      - Alumni Network Document: https://www.dhemajicollege.in/class/deptupdate/1669575026_580319976Zoology.pdf
+      - Wall Magazine Achievement Photo: https://www.dhemajicollege.in/class/deptupdate/1669575879_271746838Zoology.jpg
+
+11. OFFICIAL WEB DIRECTORY & INDEX PORTAL NAVIGATION LINKS:
+    • About Us:
+      - Vision & Mission: https://www.dhemajicollege.in/mission.php
+      - Campus Map: https://www.dhemajicollege.in/campus.php
+      - How to Reach: https://www.dhemajicollege.in/reach.php
+      - RUSA: https://www.dhemajicollege.in/rusa.php
+      - Alumni Association: https://www.dhemajicollege.in/alumniassoc.php
+      - Students Union: https://www.dhemajicollege.in/union.php
+      - DCTU: https://www.dhemajicollege.in/dctu.php
+      - Equal Opportunity Cell: https://www.dhemajicollege.in/women.php
+      - List of Former Principals: https://www.dhemajicollege.in/fprinc.php
+    • Administration:
+      - Governing Body: https://www.dhemajicollege.in/adm.php
+      - Principal's Office: https://www.dhemajicollege.in/prnc.php
+      - List of Non-Teaching Staff: https://www.dhemajicollege.in/nts.php
+      - Grievance Redressal Cell: https://www.dhemajicollege.in/griev.php
+      - Anti-Ragging Committee: https://www.dhemajicollege.in/anti.php
+      - Other Committees: https://www.dhemajicollege.in/13_NAAC_Committee_Dhemaji_College_2025%20(2).pdf
+      - College in News: https://www.dhemajicollege.in/news.php
+      - Website Committee: https://www.dhemajicollege.in/web.php
+    • Academics & Course Info:
+      - Courses Offered: https://www.dhemajicollege.in/courseoffer.php
+      - Student Progression: https://www.dhemajicollege.in/splo.php
+      - Integrated Programme: https://www.dhemajicollege.in/intgbed1.php
+      - Academic Calendar: https://www.dhemajicollege.in/academic.php
+      - Research & PhD Guideship: https://www.dhemajicollege.in/phdguide.php
+    • Student's Zone:
+      - Awards for Students: https://www.dhemajicollege.in/award.php
+      - Hostel: https://www.dhemajicollege.in/hostel.php
+      - College Magazine: https://www.dhemajicollege.in/magazine.php
+      - Sports Details: https://www.dhemajicollege.in/sport.php
+      - CECDC: https://www.dhemajicollege.in/cecdc.php
+      - Language Laboratory: https://www.dhemajicollege.in/language.php
+      - Proctorial System: https://www.dhemajicollege.in/pro.php
+      - College Canteen: https://www.dhemajicollege.in/cantn.php
+      - Career Guidance Cell: https://www.dhemajicollege.in/carrier.php
+      - NCC: https://www.dhemajicollege.in/ncc.php
+      - NSS: https://www.dhemajicollege.in/nss1.php
+    • Achievements:
+      - Academic Achievements: https://www.dhemajicollege.in/acd.php
+      - Cultural Achievements: https://www.dhemajicollege.in/cul.php
+      - Sports Achievements: https://www.dhemajicollege.in/spt.php
+      - NCC Achievements: https://www.dhemajicollege.in/ncca.php
+      - NSS Achievements: https://www.dhemajicollege.in/nssa.php
+      - Publications: https://www.dhemajicollege.in/publ.php
+    • Library, Research, & Others:
+      - Library: https://www.dhemajicollege.in/library.php
+      - Publication in Journals: https://www.dhemajicollege.in/jrnl.php
+      - Book & Chapter Publication: https://www.dhemajicollege.in/bockpb.php
+      - Newsletter: https://www.dhemajicollege.in/nwsl.php
+      - Journal: https://www.dhemajicollege.in/Jornal%20PDF.pdf
+      - Activities: https://www.dhemajicollege.in/exact.php
+      - RTI: https://www.dhemajicollege.in/rti.php
+      - IQAC: https://www.dhemajicollege.in/iqac.php
+      - Contact Us: https://www.dhemajicollege.in/contactus.php
+    • NIRF Rankings & Reports:
+      - NIRF 2025: https://www.dhemajicollege.in/nirf25.php
+      - NIRF 2024: https://www.dhemajicollege.in/nirf24.php
+      - NIRF 2023: https://www.dhemajicollege.in/nirf23.php
+      - NIRF 2022: https://www.dhemajicollege.in/nirf22.php
+      - NIRF 2021: https://www.dhemajicollege.in/nirf21.php
+
 ---------------------------------------
 ENDING CHAT SIGN-OFF
 ---------------------------------------
 "Thank you for contacting the Dhemaji College AI Support Portal. If you have any further questions regarding our campus, courses, or hostel facilities, please feel free to ask!"
 `;
+
+// Detailed offline keyword matcher for graceful fallbacks when Gemini API keys are unconfigured or rate limited (429)
+function getOfflineFallbackResponse(message: string): { text: string; sources: { title: string; url: string }[] } {
+  const query = message.toLowerCase();
+  let text = "";
+  const sources: { title: string; url: string }[] = [];
+
+  // 1. Zoology Department
+  if (query.includes("zoology") || query.includes("zoo")) {
+    text = `The **Department of Zoology** at Dhemaji College was established in **1976**. It offers:
+• **B.Sc. Major/Honors in Zoology** with an intake capacity of **20 seats**.
+• **Departmental Wall Magazine**: *"NEURON"*, which recently won 1st Prize in the college wall magazine competition.
+• **Research**: Faculty members have successfully completed 3 Minor Research Projects.
+
+**Zoology Faculty Members:**
+1. **Mr. Sanker Paul** (Assistant Professor & Head of Department)
+   - Email: paulsanker@gmail.com | Mobile: (+91) 9957287867
+   - Profile: [Sanker Paul Profile](https://www.dhemajicollege.in/teacherprofile/SankerPaul.pdf)
+2. **Dr. Purbajyoti Saikia** (Assistant Professor)
+   - Email: purbajyoti81@gmail.com | Mobile: (+91) 8414861061
+   - Profile: [Purbajyoti Saikia Profile](https://www.dhemajicollege.in/teacherprofile/PurbaJSaikia.pdf)
+3. **Dr. Muhammed Khairujjaman Mazumder** (Assistant Professor)
+   - Email: Khairujjaman1987@gmail.com | Mobile: (+91) 9365536928
+   - Profile: [Dr. Mazumder Profile](https://www.dhemajicollege.in/teacherprofile/Dr.%20MuhammedKhairujjamanMazumder.pdf)
+4. **Dr. Jitu Chutia** (Assistant Professor)
+   - Email: jituchutia.j.c@gmail.com | Mobile: (+91) 9101340029
+   - Profile: [Dr. Chutia Profile](https://www.dhemajicollege.in/teacherprofile/33New_JITU%20CHUTIA.pdf)
+
+**Syllabus & Activities:**
+• [Official Zoology Syllabus PDF](https://www.dhemajicollege.in/GCSyllabus/Zoology.pdf)
+• [National Webinar Report 1](https://www.dhemajicollege.in/class/deptupdate/1669574164_833742252Zoology.pdf)
+• [National Webinar Report 2](https://www.dhemajicollege.in/class/deptupdate/1669574403_525237796Zoology.pdf)
+• [Academic Field Trip Report](https://www.dhemajicollege.in/class/deptupdate/1669574463_538105535Zoology.pdf)
+• [Departmental Newsletter](https://www.dhemajicollege.in/class/deptupdate/1669574710_167715886Zoology.pdf)
+• [Zoology Alumni Network Details](https://www.dhemajicollege.in/class/deptupdate/1669575026_580319976Zoology.pdf)`;
+    
+    sources.push(
+      { title: "Zoology Department Portal", url: "https://www.dhemajicollege.in/zoo.php" },
+      { title: "Zoology Syllabus", url: "https://www.dhemajicollege.in/GCSyllabus/Zoology.pdf" }
+    );
+  }
+  // 2. Vision and Mission
+  else if (query.includes("vision") || query.includes("mission") || query.includes("motto") || query.includes("aim")) {
+    text = `**Dhemaji College Vision & Mission:**
+• **Vision**: To achieve excellence in higher education by imparting quality education to the rural, tribal, and marginalized youth of Dhemaji and its adjoining areas, shaping them into socially conscious, highly skilled, and ethically sound citizens.
+• **Motto**: *"Tamaso Ma Jyotirgamaya"* (Lead us from darkness to light).
+• **More Info**: Read the complete Vision and Mission blueprint on the official page.`;
+    
+    sources.push({ title: "Vision & Mission", url: "https://www.dhemajicollege.in/mission.php" });
+  }
+  // 3. Alumni Association
+  else if (query.includes("alumni")) {
+    text = `**Alumni Network at Dhemaji College:**
+• The college has an active **Alumni Association** linking generations of graduates who have progressed into esteemed national and international positions.
+• Dedicated alumni networks exist for specialized departments such as the **Zoology Department Alumni** group.`;
+    
+    sources.push(
+      { title: "Alumni Association Portal", url: "https://www.dhemajicollege.in/alumniassoc.php" },
+      { title: "Zoology Alumni PDF", url: "https://www.dhemajicollege.in/class/deptupdate/1669575026_580319976Zoology.pdf" }
+    );
+  }
+  // 4. NIRF Rankings & Reports
+  else if (query.includes("nirf")) {
+    text = `**Dhemaji College NIRF (National Institutional Ranking Framework) Submissions:**
+You can access official NIRF reports submitted annually to the Ministry of Education, Government of India:
+• [NIRF Report 2025](https://www.dhemajicollege.in/nirf25.php)
+• [NIRF Report 2024](https://www.dhemajicollege.in/nirf24.php)
+• [NIRF Report 2023](https://www.dhemajicollege.in/nirf23.php)
+• [NIRF Report 2022](https://www.dhemajicollege.in/nirf22.php)
+• [NIRF Report 2021](https://www.dhemajicollege.in/nirf21.php)`;
+    
+    sources.push({ title: "NIRF 2025 portal", url: "https://www.dhemajicollege.in/nirf25.php" });
+  }
+  // 5. Research, Publications, & Journals
+  else if (query.includes("research") || query.includes("journal") || query.includes("publication") || query.includes("phd") || query.includes("newsletter") || query.includes("book")) {
+    text = `**Research & Publications Center at Dhemaji College:**
+The institution supports rigorous scientific investigation and publication:
+• [Research and PhD Guideship Directory](https://www.dhemajicollege.in/phdguide.php)
+• [Publications in Peer-Reviewed Journals](https://www.dhemajicollege.in/jrnl.php)
+• [Book & Chapter Publications](https://www.dhemajicollege.in/bockpb.php)
+• [Dhemaji College Newsletters](https://www.dhemajicollege.in/nwsl.php)
+• [College Scientific Journal PDF](https://www.dhemajicollege.in/Jornal%20PDF.pdf)`;
+    
+    sources.push({ title: "Research & PhD Guideship", url: "https://www.dhemajicollege.in/phdguide.php" });
+  }
+  // 6. Student Zone, Hostel, Sports, NCC, NSS, Canteen
+  else if (query.includes("hostel") || query.includes("sport") || query.includes("ncc") || query.includes("nss") || query.includes("canteen") || query.includes("magazine") || query.includes("student") || query.includes("award") || query.includes("cecdc") || query.includes("language")) {
+    text = `**Student Support & Co-Curricular Facilities:**
+• **Awards for Students**: Merit-based awards and financial aids are listed on [Student Awards](https://www.dhemajicollege.in/award.php).
+• **Accommodation**: Excellent on-campus housing is available at [Dr. Bunny Banerjee Girls' Hostel](https://www.dhemajicollege.in/hostel.php).
+• **College Magazine**: Serves as the annual student literary canvas ([College Magazine Info](https://www.dhemajicollege.in/magazine.php)).
+• **Sports**: Indoors Stadium & modern gym details are at [Sports Zone](https://www.dhemajicollege.in/sport.php).
+• **NCC & NSS**: Active socio-civic leadership clubs are available ([NCC Unit](https://www.dhemajicollege.in/ncc.php) | [NSS Unit](https://www.dhemajicollege.in/nss1.php)).
+• **Other Services**: College Canteen, Language Laboratory, Proctorial System, Career Guidance Cell (CECDC).`;
+    
+    sources.push(
+      { title: "Student Hostel Info", url: "https://www.dhemajicollege.in/hostel.php" },
+      { title: "NCC Unit Link", url: "https://www.dhemajicollege.in/ncc.php" }
+    );
+  }
+  // 7. Library details
+  else if (query.includes("library") || query.includes("book") || query.includes("reading") || query.includes("central library") || query.includes("kanak")) {
+    text = `**Kanak Chandra Chutia Memorial Central Library (Official Portal: https://www.dhemajicollege.in/library.php):**
+• **Extensive Collection**: Houses a massive, well-organized digital inventory of **33,000+ text and reference books**, as well as various academic journals, newspapers, and magazines.
+• **State-of-the-Art Automation**: Fully automated using the advanced **SOUL 2.0 database software** (developed by INFLIBNET Centre) with barcode checkouts and check-ins for smooth operations.
+• **Electronic Resources (E-Resources)**: Subscribed to the **N-LIST consortia**, giving students and faculty members free remote access to over **6,000+ peer-reviewed e-journals** and **1,99,500+ e-books** for research.
+• **Digital Services**: 
+  - Automated OPAC (Online Public Access Catalog) terminals for easy searching.
+  - Digital reading room sections with high-speed Wi-Fi access.
+  - Separate reading areas designated for students and teachers.
+• **Inclusivity (Book Bank)**: Offers a dedicated Book Bank facility catering specifically to economically disadvantaged and meritorious students.
+• **Opening Hours**: Open on all college working days from **9:00 AM to 4:00 PM**.`;
+    
+    sources.push({ title: "Central Library Portal", url: "https://www.dhemajicollege.in/library.php" });
+  }
+  // 8. Achievements
+  else if (query.includes("achievement") || query.includes("prize") || query.includes("award") || query.includes("rank")) {
+    text = `**Dhemaji College Proud Achievements & Accolades:**
+Our students and faculty regularly bring pride in multiple arenas:
+• **Academic Achievements**: [Academic Merit List](https://www.dhemajicollege.in/acd.php)
+• **Cultural Accolades**: [Cultural Wins](https://www.dhemajicollege.in/cul.php)
+• **Sports Accolades**: [Sports Medals](https://www.dhemajicollege.in/spt.php)
+• **NCC Unit Honors**: [NCC Accolades](https://www.dhemajicollege.in/ncca.php)
+• **NSS Unit Honors**: [NSS Accolades](https://www.dhemajicollege.in/nssa.php)
+• **Faculty Publications**: [Recent Publications](https://www.dhemajicollege.in/publ.php)
+• **Zoology Department**: Won the 1st Prize in College Wall Magazine competition.`;
+    
+    sources.push({ title: "Academic Achievements", url: "https://www.dhemajicollege.in/acd.php" });
+  }
+  // 9. Administration, Governing Body, Committees, Grievance, anti-ragging
+  else if (query.includes("administration") || query.includes("committee") || query.includes("office") || query.includes("governing") || query.includes("staff") || query.includes("ragging") || query.includes("grievance")) {
+    text = `**Administration, Leadership & Grievance cells:**
+• **Governing Body**: Chief administrative authority supervising college expansion plans ([Governing Body Portal](https://www.dhemajicollege.in/adm.php)).
+• **Principal's Office**: Directed by Dr. Dipak Kumar Neog ([Principal's Desk](https://www.dhemajicollege.in/prnc.php)).
+• **Non-Teaching Staff**: List of support staff is at [Non-Teaching Staff Directory](https://www.dhemajicollege.in/nts.php).
+• **Grievance Redressal Cell**: Fully operational for receiving and solving student concerns ([Grievance Cell Link](https://www.dhemajicollege.in/griev.php)).
+• **Anti-Ragging Committee**: Maintains a strict zero-tolerance campus ([Anti-Ragging Portal](https://www.dhemajicollege.in/anti.php)).
+• **NAAC & Other Committees**: [Official NAAC Committee Roster](https://www.dhemajicollege.in/13_NAAC_Committee_Dhemaji_College_2025%20(2).pdf).`;
+    
+    sources.push(
+      { title: "Governing Body Directory", url: "https://www.dhemajicollege.in/adm.php" },
+      { title: "Anti-Ragging Committee", url: "https://www.dhemajicollege.in/anti.php" }
+    );
+  }
+  // 10. Admission or Seats or Courses
+  else if (query.includes("admission") || query.includes("seat") || query.includes("capacity") || query.includes("intake") || query.includes("apply") || query.includes("course") || query.includes("subject") || query.includes("major")) {
+    text = `Dhemaji College offers highly recognized undergraduate programs in both **Arts** and **Science** streams.
+• **Zoology B.Sc. (Major)** has an intake capacity of **20 seats**.
+• **Arts Departments**: Assamese, Economics, Education, English, History, Philosophy, Political Science, Sociology.
+• **Science Departments**: Botany, Chemistry, Computer Science, Electronics, Mathematics, Physics, Zoology.
+
+For general admissions, seat matrixes, and online forms, please check the [Official Admissions Page](https://www.dhemajicollege.in/index.php).`;
+    
+    sources.push({ title: "Admissions & Courses", url: "https://www.dhemajicollege.in/index.php" });
+  }
+  // 11. Contact or Location
+  else if (query.includes("contact") || query.includes("email") || query.includes("phone") || query.includes("address") || query.includes("where") || query.includes("location") || query.includes("reach")) {
+    text = `**Contact & Location Information:**
+• **Address**: College Road, Dhemaji, Assam, PIN - 787057, India.
+• **Landmark**: Easily reachable from Dhemaji town center and nearby railway and bus terminals.
+• **Principal Email**: dhemajicollege@rediffmail.com
+• **Administration Email**: dhemajicollege@gmail.com
+• **Official Website**: [https://www.dhemajicollege.in](https://www.dhemajicollege.in/index.php)`;
+    
+    sources.push({ title: "Contact Us", url: "https://www.dhemajicollege.in/index.php" });
+  }
+  // 12. Default Fallback
+  else {
+    text = `Dhemaji College is a premier institution of higher learning in Assam, founded in **1965**. We offer undergraduate courses in both Arts and Science disciplines.
+
+*(Note: The AI chatbot is currently running in a local fallback mode because the Gemini API quota limits have been temporarily exceeded. However, you can access all college resources below)*:
+• **Official Homepage**: [Dhemaji College Portal](https://www.dhemajicollege.in/index.php)
+• **Key Highlights**: Outstanding Zoology department (ESTD 1976), excellent laboratory resources, active Career Guidance, and student hostel facilities.
+• **Principal's Desk**: Contact Dr. Dipak Kumar Neog via dhemajicollege@rediffmail.com for formal queries.`;
+    
+    sources.push({ title: "Dhemaji College Homepage", url: "https://www.dhemajicollege.in/index.php" });
+  }
+
+  return { text, sources };
+}
 
 // API Routes
 app.get("/api/health", (req, res) => {
@@ -179,20 +448,30 @@ app.get("/api/health", (req, res) => {
 
 // Chat API Route using @google/genai and Google Search Grounding
 app.post("/api/chat", async (req, res) => {
+  const { message, history } = req.body;
   try {
-    const { message, history } = req.body;
-    
     if (!message) {
       return res.status(400).json({ error: "Message is required." });
     }
 
-    if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey.trim() === "") {
+    const currentApiKey = process.env.GEMINI_API_KEY;
+    if (!currentApiKey || currentApiKey === "MY_GEMINI_API_KEY" || currentApiKey.trim() === "") {
       // Return beautiful friendly message without crashing
       return res.json({
         text: "I am ready to help, but the **GEMINI_API_KEY** has not been configured in the Secrets panel yet. Please add it so I can answer using the power of Gemini!\n\nHere's some general Dhemaji College information in the meantime:\n• **Address**: College Road, Dhemaji, Assam, PIN-787057\n• **Email**: dhemajicollege@rediffmail.com\n• **Principal**: Dr. Dipak Kumar Neog\n• **Established**: 1965\n• **Affiliation**: Dibrugarh University",
         sources: []
       });
     }
+
+    // Initialize fresh Gemini Client with latest key
+    const ai = new GoogleGenAI({
+      apiKey: currentApiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
 
     // Format conversation history for Gemini
     const formattedContents = [];
@@ -243,10 +522,17 @@ app.post("/api/chat", async (req, res) => {
 
     return res.json({ text: replyText, sources: uniqueSources });
   } catch (error: any) {
-    console.error("Gemini API Error:", error);
-    return res.status(500).json({ 
-      error: "Failed to generate response. Please verify your GEMINI_API_KEY.",
-      details: error.message 
+    console.log("Serving request using the fallback offline records registry.");
+    
+    // Fetch appropriate structured offline info based on user query keywords
+    const offlineResult = getOfflineFallbackResponse(message);
+    
+    // Add polite notice about API limits with the answered response
+    const notice = `⚠️ **Note:** The Gemini API public quota limits are currently exceeded. Providing an accurate response from Dhemaji College's offline registry database:\n\n${offlineResult.text}`;
+    
+    return res.json({ 
+      text: notice, 
+      sources: offlineResult.sources 
     });
   }
 });

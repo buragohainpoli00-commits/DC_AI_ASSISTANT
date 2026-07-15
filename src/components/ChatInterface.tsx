@@ -13,7 +13,8 @@ import {
   Maximize2,
   Minimize2,
   BookmarkCheck,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from "lucide-react";
 import { Message } from "../types";
 
@@ -25,6 +26,7 @@ interface ChatInterfaceProps {
   setIsGenerating: (val: boolean) => void;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
+  onClose?: () => void;
 }
 
 const SUGGESTED_CHIPS = [
@@ -139,7 +141,8 @@ export default function ChatInterface({
   isGenerating, 
   setIsGenerating,
   isExpanded = false,
-  onToggleExpand
+  onToggleExpand,
+  onClose
 }: ChatInterfaceProps) {
   const [input, setInput] = useState("");
   const [sources, setSources] = useState<{ title: string; url: string }[]>([]);
@@ -278,6 +281,16 @@ export default function ChatInterface({
           >
             <Trash2 className="h-4.5 w-4.5" />
           </button>
+
+          {onClose && (
+            <button 
+              onClick={onClose}
+              title="Close Chat"
+              className="p-1.5 rounded-lg text-emerald-100 hover:text-white hover:bg-emerald-800/60 transition-colors border border-emerald-850 bg-emerald-950/20"
+            >
+              <X className="h-4.5 w-4.5" />
+            </button>
+          )}
         </div>
       </div>
 
