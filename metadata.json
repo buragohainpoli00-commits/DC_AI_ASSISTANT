@@ -1,0 +1,6 @@
+{
+  "name": "Dhemaji College AI Assistant",
+  "description": "The official AI virtual assistant of Dhemaji College, Assam, providing instant support for admissions, eligibility, courses, hostels, notices, and fees with real-time web search grounding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
