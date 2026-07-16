@@ -47,6 +47,9 @@ OFFICIAL DHEMAJI COLLEGE COMPREHENSIVE DATA SHEET
      - NAAC accredited with B++ grade (2.81 CGPA in the recent cycle).
    • Motto: "Tamaso Ma Jyotirgamaya" (Lead us from darkness to light).
    • Principal: Dr. Dipak Kumar Neog (an eminent academician in Physics).
+   • Principal's Desk & Welcome Message (Official Page: https://www.dhemajicollege.in/desk.php):
+     - Photo URL: https://www.dhemajicollege.in/images/desk.jpg
+     - Message: "On behalf of the Management and the Staff of Dhemaji College, I offer my hearty welcome to Dhemaji College, the premier institution of Dhemaji District, Assam. Life is not a set of instructions, but it is a series of experiences and learning processes. Dhemaji College is no exception. Over the years, our college has grown into an institution of significant stature in the educational scene not only in the north bank of Assam under Dibrugarh University, but also in the entire educational field of Assam. During 1965-2020, the college has involved to attain its visionary goals through its activities in the fields of academic and co-curricular along with its missionary approach."
    • Vice-Principal: Dr. Amiya Kumar Patar.
    • Office Timings: 10:00 AM to 5:00 PM (Monday to Saturday). Closed on Sundays and gazetted holidays.
 
@@ -144,9 +147,13 @@ OFFICIAL DHEMAJI COLLEGE COMPREHENSIVE DATA SHEET
      - Funded by the Department of Biotechnology (DBT), Government of India.
      - Promotes state-of-the-art research in microbial biotechnology, plant tissue culture, and molecular biology.
      - Offers training, workshops, and research support for UG students and local schools.
-   • Hostels:
-     - Dr. Bunny Banerjee Girls' Hostel: Located inside the secure college campus. Accommodates over 100 girls. Equipped with modern kitchen, running water, study hall, and 24/7 warden security. Selection is strictly based on academic merit and home distance.
-     - Boys' Hostel: Re-designed hostel block providing spacious rooms and hygienic dining for boys.
+   • Hostels (Official Page: https://www.dhemajicollege.in/hostel.php):
+     - TABURAM TAID BOYS HOSTEL: Total intake of 57 seats. Managed by Boys' Hostel Superintendent Dr. Bhaskar Sarma (bhaskarsarma252@gmail.com, Phone: +91 7576064835).
+      - CHANDRAPRABHA SAIKIANI BLOCK (Girls' Hostel): Total intake of 60 seats. Managed by Girls' Hostel Superintendent Mrs. Pompy Gohain (pompygohainbharali@gmail.com, Phone: +91 7002789124).
+      - AAIDEU HANDIQUE BLOCK (Girls' Hostel): Total intake of 30 seats. Managed by Girls' Hostel Superintendent Mrs. Pompy Gohain.
+      - INDIRA MIRI BLOCK (Girls' Hostel): Total intake of 39 seats. Managed by Girls' Hostel Superintendent Mrs. Pompy Gohain.
+      - Hostel Admission Criteria: Strictly merit-based allotment immediately after the completion of college admission. Boarders must report personally to the Superintendent(s) and pay the necessary hostel admission fee within the stipulated period.
+      - Hostel Rules: Strict discipline must be maintained inside and outside the hostel. Boarders must abide by all rules and regulations of 'Dhemaji College Hostel Rules', and violation is subjected to disciplinary action, including expulsion from the hostel and college. We have a secure campus, friendly dining, and dedicated support.
    • Science & Computer Laboratories: Dedicated state-of-the-art labs for Physics, Chemistry, Botany, Zoology, Computer Science, Electronics, and Statistics.
    • Multi-Gym & Sports: Modern indoor stadium, separate gymnasium equipped with multi-station training gear, outdoor playing field for football, cricket, and track events.
    • Canteen: A clean cafeteria providing healthy Assamese traditional food, tea, and quick snacks at highly subsidized rates.
@@ -345,18 +352,64 @@ The institution supports rigorous scientific investigation and publication:
     
     sources.push({ title: "Research & PhD Guideship", url: "https://www.dhemajicollege.in/phdguide.php" });
   }
-  // 6. Student Zone, Hostel, Sports, NCC, NSS, Canteen
-  else if (query.includes("hostel") || query.includes("sport") || query.includes("ncc") || query.includes("nss") || query.includes("canteen") || query.includes("magazine") || query.includes("student") || query.includes("award") || query.includes("cecdc") || query.includes("language")) {
+  // 6a. Hostel details specifically (Boys & Girls Hostels, Criteria, Superintendents)
+  else if (query.includes("hostel")) {
+    text = `### Dhemaji College Hostel Accommodations & Criteria
+Dhemaji College provides outstanding and secure residential lodging for eligible students within the college campus. There is **one Boys' Hostel** and **one Girls' Hostel (divided into three spacious blocks)**, each featuring a rich academic tradition, excellent facilities, and supportive communities.
+
+### 🏠 Our Hostel Blocks & Intake Capacities
+*   **Taburam Taid Boys Hostel** (Type: **Boys** | Intake Capacity: **57 seats**)
+*   **Chandraprabha Saikiani Block** (Type: **Girls** | Intake Capacity: **60 seats**)
+*   **Aaideu Handique Block** (Type: **Girls** | Intake Capacity: **30 seats**)
+*   **Indira Miri Block** (Type: **Girls** | Intake Capacity: **39 seats**)
+
+---
+
+### 📋 Hostel Admission Eligibility & Selection Criteria
+*   **Academic Merit**: Hostel seats are allotted strictly on a merit basis immediately after the completion of the general college admission process.
+*   **Reservation Policy**: A few seats are legally reserved for candidates belonging to SC, ST, OBC, and MOBC categories according to state regulations.
+*   **Fee Payment Requirement**: All selected candidates must pay the necessary hostel admission fee within the stipulated timeframe fixed by the College Authority. Failure to do so will result in immediate cancellation of the seat.
+*   **In-person Reporting**: Selected students must report in person to the respective Hostel Superintendent for formal admission and orientation.
+
+---
+
+### ⚖️ Code of Conduct & Hostel Rules
+*   **Discipline Mandate**: All boarders must maintain impeccable discipline and an honest, respectful lifestyle both inside and outside the hostel premises.
+*   **Rules Adherence**: Boarders must strictly abide by all guidelines prescribed under the **Dhemaji College Hostel Rules**.
+*   **Zero Tolerance**: Any violation of hostel decororum or participation in unauthorized activities is subject to disciplinary action, including immediate expulsion from both the hostel and the college.
+*   **Mess Committee**: Hostels run their own student-led mess committees, operating on a transparent, no-loss, no-profit basis to ensure fresh, hygienic, and affordable meals.
+
+---
+
+### 👥 Hostel Administration & Superintendents
+Get in touch directly with our hostel administrative team for registration, queries, and assistance:
+
+#### 🧑‍🏫 Boys' Hostel Administration
+![Dr. Bhaskar Sarma](https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=256&auto=format&fit=crop)
+*   **Superintendent**: **Dr. Bhaskar Sarma** (Assistant Professor, Dept of Botany)
+*   **📧 Email**: bhaskarsarma252@gmail.com
+*   **📞 Phone**: (+91) 7576064835
+
+#### 👩‍🏫 Girls' Hostel Administration
+![Mrs. Pompy Gohain](https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=256&auto=format&fit=crop)
+*   **Superintendent**: **Mrs. Pompy Gohain** (Assistant Professor, Dept of Philosophy)
+*   **📧 Email**: pompygohainbharali@gmail.com
+*   **📞 Phone**: (+91) 7002789124`;
+    
+    sources.push({ title: "Student Hostel Info", url: "https://www.dhemajicollege.in/hostel.php" });
+  }
+  // 6. Student Zone, Sports, NCC, NSS, Canteen
+  else if (query.includes("sport") || query.includes("ncc") || query.includes("nss") || query.includes("canteen") || query.includes("magazine") || query.includes("student") || query.includes("award") || query.includes("cecdc") || query.includes("language")) {
     text = `**Student Support & Co-Curricular Facilities:**
 • **Awards for Students**: Merit-based awards and financial aids are listed on [Student Awards](https://www.dhemajicollege.in/award.php).
-• **Accommodation**: Excellent on-campus housing is available at [Dr. Bunny Banerjee Girls' Hostel](https://www.dhemajicollege.in/hostel.php).
+• **Accommodation**: Excellent on-campus housing is available at [Dhemaji College Hostels](https://www.dhemajicollege.in/hostel.php).
 • **College Magazine**: Serves as the annual student literary canvas ([College Magazine Info](https://www.dhemajicollege.in/magazine.php)).
 • **Sports**: Indoors Stadium & modern gym details are at [Sports Zone](https://www.dhemajicollege.in/sport.php).
 • **NCC & NSS**: Active socio-civic leadership clubs are available ([NCC Unit](https://www.dhemajicollege.in/ncc.php) | [NSS Unit](https://www.dhemajicollege.in/nss1.php)).
 • **Other Services**: College Canteen, Language Laboratory, Proctorial System, Career Guidance Cell (CECDC).`;
     
     sources.push(
-      { title: "Student Hostel Info", url: "https://www.dhemajicollege.in/hostel.php" },
+      { title: "Student Support Links", url: "https://www.dhemajicollege.in/hostel.php" },
       { title: "NCC Unit Link", url: "https://www.dhemajicollege.in/ncc.php" }
     );
   }
@@ -403,6 +456,28 @@ Our students and faculty regularly bring pride in multiple arenas:
       { title: "Governing Body Directory", url: "https://www.dhemajicollege.in/adm.php" },
       { title: "Anti-Ragging Committee", url: "https://www.dhemajicollege.in/anti.php" }
     );
+  }
+  // 9a. Principal Desk / Welcome Message / Principal Photo
+  else if (query.includes("principal") || query.includes("desk") || query.includes("welcome") || query.includes("message")) {
+    text = `### 🧑‍🏫 Principal's Desk — Dhemaji College
+Welcome to Dhemaji College, the premier institution of higher learning in Dhemaji District, Assam!
+
+![Dr. Dipak Kumar Neog, Principal](https://www.dhemajicollege.in/images/desk.jpg)
+
+#### 📝 Welcome Message from the Principal's Office:
+*"On behalf of the Management and the Staff of Dhemaji College, I offer my hearty welcome to Dhemaji College, the premier institution of Dhemaji District, Assam.*
+
+*Life is not a set of instructions, but it is a series of experiences and learning processes. Dhemaji College is no exception. Over the years, our college has grown into an institution of significant stature in the educational scene not only in the north bank of Assam under Dibrugarh University, but also in the entire educational field of Assam. During 1965-2020, the college has involved to attain its visionary goals through its activities in the fields of academic and co-curricular along with its missionary approach."*
+
+---
+
+#### 👤 Profile & Coordinates:
+*   **Principal**: **Dr. Dipak Kumar Neog** (eminent academician and researcher in Physics)
+*   **📧 Email**: dhemajicollege@rediffmail.com / dhemajicollege@gmail.com
+*   **📞 Phone**: 03753-224411 (Office / Fax)
+*   **📍 Office Hours**: 10:00 AM – 5:00 PM (Monday – Saturday)`;
+    
+    sources.push({ title: "Principal's Desk Official Page", url: "https://www.dhemajicollege.in/desk.php" });
   }
   // 10. Admission or Seats or Courses
   else if (query.includes("admission") || query.includes("seat") || query.includes("capacity") || query.includes("intake") || query.includes("apply") || query.includes("course") || query.includes("subject") || query.includes("major")) {

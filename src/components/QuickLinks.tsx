@@ -7,7 +7,8 @@ import {
   CalendarDays, 
   FileText, 
   Award, 
-  PhoneCall 
+  PhoneCall,
+  User
 } from "lucide-react";
 
 interface QuickLinksProps {
@@ -24,6 +25,22 @@ interface LinkItem {
 }
 
 const ITEMS: LinkItem[] = [
+  {
+    label: "Principal's Desk",
+    query: "What is the welcome message and photo from the Principal's Desk?",
+    description: "Official welcome, profile, and contact of the Principal",
+    icon: User,
+    color: "bg-indigo-50 hover:bg-indigo-100/70 border-indigo-100",
+    textColor: "text-indigo-700",
+  },
+  {
+    label: "Hostel Criteria",
+    query: "What are the hostel criteria, admission rules, seats, and superintendents?",
+    description: "Eligibility, seat counts, rules, and contact info",
+    icon: Home,
+    color: "bg-rose-50 hover:bg-rose-100/70 border-rose-100",
+    textColor: "text-rose-700",
+  },
   {
     label: "Admissions Guide",
     query: "How can I apply for online admission at Dhemaji College and what are the steps?",
@@ -47,14 +64,6 @@ const ITEMS: LinkItem[] = [
     icon: Coins,
     color: "bg-teal-50 hover:bg-teal-100/70 border-teal-100",
     textColor: "text-teal-700",
-  },
-  {
-    label: "Hostel Lodging",
-    query: "What are the hostel facilities and how to apply for hostel admission?",
-    description: "Boys' & Girls' hostel seats and selection",
-    icon: Home,
-    color: "bg-rose-50 hover:bg-rose-100/70 border-rose-100",
-    textColor: "text-rose-700",
   },
   {
     label: "Academic Calendar",

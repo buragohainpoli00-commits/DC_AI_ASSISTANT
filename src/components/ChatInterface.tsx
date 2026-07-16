@@ -30,10 +30,10 @@ interface ChatInterfaceProps {
 }
 
 const SUGGESTED_CHIPS = [
+  { text: "Hostel criteria", icon: HelpCircle },
   { text: "Admission steps", icon: GraduationCap },
   { text: "Required documents", icon: FileText },
   { text: "Government Fee waiver", icon: Coins },
-  { text: "Hostel criteria", icon: HelpCircle },
 ];
 
 const INITIAL_GREETING = `Hello! 👋 Welcome to DHEMAJI COLLEGE.
@@ -89,18 +89,56 @@ function FormatMessageText({ text }: { text: string }) {
           cleanText = trimmed.replace(/^\d+\.\s*/, "");
         }
 
-        // Parse bold markers **text**
-        const parts = cleanText.split(/(\*\*.*?\*\*)/g);
-        const renderedText = parts.map((part, partIdx) => {
-          if (part.startsWith("**") && part.endsWith("**")) {
-            return (
-              <strong key={partIdx} className="font-bold text-slate-950 bg-amber-100/60 px-1 rounded inline-block">
-                {part.slice(2, -2)}
-              </strong>
-            );
-          }
-          return part;
-        });
+        // Helper to parse formatting (bold, markdown images, and markdown links)
+        const parseFormatting = (input: string) => {
+          const regex = /(\!\[.*?\]\(.*?\)|\[.*?\]\(.*?\))|(\*\*.*?\*\*)/g;
+          const tokens = input.split(regex);
+          
+          return tokens.map((token, tIdx) => {
+            if (!token) return null;
+            
+            // Check for bold
+            if (token.startsWith("**") && token.endsWith("**")) {
+              return (
+                <strong key={tIdx} className="font-semibold text-slate-950 bg-amber-100/60 px-1 rounded inline-block">
+                  {token.slice(2, -2)}
+                </strong>
+              );
+            }
+            
+            // Check for image: ![alt](url)
+            if (token.startsWith("![") && token.includes("](")) {
+              const altMatch = token.match(/\!\[(.*?)\]/);
+              const urlMatch = token.match(/\((.*?)\)/);
+              const alt = altMatch ? altMatch[1] : "";
+              const url = urlMatch ? urlMatch[1] : "";
+              return (
+                <span key={tIdx} className="block my-3 max-w-[260px] rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-white p-1 ml-1 hover:scale-[1.02] transition-transform duration-200">
+                  <img src={url} alt={alt} className="h-44 w-full object-cover rounded-xl" referrerPolicy="no-referrer" />
+                  {alt && <span className="block text-[10px] text-center text-slate-500 font-semibold mt-1.5 select-none">{alt}</span>}
+                </span>
+              );
+            }
+
+            // Check for link: [text](url)
+            if (token.startsWith("[") && token.includes("](")) {
+              const textMatch = token.match(/\[(.*?)\]/);
+              const urlMatch = token.match(/\((.*?)\)/);
+              const linkText = textMatch ? textMatch[1] : "";
+              const url = urlMatch ? urlMatch[1] : "";
+              return (
+                <a key={tIdx} href={url} target="_blank" rel="noopener noreferrer" className="text-emerald-700 hover:text-emerald-900 font-bold underline inline-flex items-center gap-0.5">
+                  {linkText}
+                  <ExternalLink className="h-3 w-3 inline shrink-0" />
+                </a>
+              );
+            }
+            
+            return token;
+          });
+        };
+
+        const renderedText = parseFormatting(cleanText);
 
         if (isBullet) {
           return (

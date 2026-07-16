@@ -49,9 +49,24 @@ export default function InfoSidebar() {
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
           Administration Desk
         </h3>
-        <div className="bg-emerald-50/40 border border-emerald-100/50 rounded-2xl p-4 flex items-start space-x-3.5">
-          <div className="bg-emerald-850 text-white h-11 w-11 rounded-xl font-display font-bold flex items-center justify-center shadow-md shrink-0">
-            DN
+        <div className="bg-emerald-50/40 border border-emerald-100/50 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:space-x-3.5 space-y-3 sm:space-y-0">
+          <div className="h-14 w-14 rounded-xl overflow-hidden shadow-md shrink-0 border border-emerald-200 bg-white flex items-center justify-center">
+            <img 
+              src="https://www.dhemajicollege.in/images/desk.jpg" 
+              alt="Dr. Dipak Kumar Neog" 
+              className="h-full w-full object-cover"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const parent = e.currentTarget.parentElement;
+                if (parent) {
+                  const fb = document.createElement('div');
+                  fb.className = "bg-emerald-800 text-white h-full w-full font-display font-bold flex items-center justify-center text-sm";
+                  fb.innerText = "DN";
+                  parent.appendChild(fb);
+                }
+              }}
+            />
           </div>
           <div>
             <h4 className="text-xs font-bold text-slate-800">
@@ -61,7 +76,7 @@ export default function InfoSidebar() {
               Principal, Dhemaji College
             </p>
             <p className="text-[11px] text-slate-500 mt-1.5 italic leading-normal">
-              "Providing high-quality affordable higher education to the tribal and rural youths of Dhemaji and Assam."
+              "On behalf of the Management and Staff, I offer my hearty welcome to Dhemaji College, the premier institution..."
             </p>
           </div>
         </div>
